@@ -6,7 +6,7 @@ export class AppController {
   @Get('/health')
   public healthCheck(): HealthCheckResponse {
     return {
-      status: 'ok',
+      status: 'san kyi tar par ',
       timeStamp: new Date(),
     };
   }

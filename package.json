@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev:api": "pnpm --filter api run start:dev",
-    "dev:mobile": "pnpm --filter client run start",
-    "dev": "concurrently \"pnpm dev:api\" \"pnpm dev:mobile\"",
+    "dev:mobile": "pnpm --filter client run dev",
+    "dev": "concurrently -n \"API,EXPO\" -c \"blue.bold,green.bold\" \"pnpm dev:api\" \"pnpm dev:mobile\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
