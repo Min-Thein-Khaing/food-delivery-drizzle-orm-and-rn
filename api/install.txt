@@ -1,0 +1,5 @@
+$pnpm add -g @nestjs/cli
+
+
+for env
+pnpm add --save @nestjs/config 
