@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "db:push": "pnpm --dir api run db:push",
+    "db:studio": "pnpm --dir api run db:studio",
     "dev:api": "pnpm --filter api run start:dev",
     "dev:mobile": "pnpm --filter client run dev",
     "dev": "concurrently -n \"API,EXPO\" -c \"blue.bold,green.bold\" \"pnpm dev:api\" \"pnpm dev:mobile\"",
