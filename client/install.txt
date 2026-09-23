@@ -1,1 +1,3 @@
 pnpm add axios @tanstack/react-query
+
+pnpm add expo-secure-store

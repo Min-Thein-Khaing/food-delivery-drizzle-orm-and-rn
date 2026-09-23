@@ -1,0 +1,22 @@
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+{
+    
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "johnss.doenet@example.com",
+  "password": "password123",
+  "role": "CUSTOMER"
+}
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+{
+    
+  
+  "email": "johnss.doenet@example.com",
+  "password": "password123"
+}
+
+GET http://localhost:3000/api/auth/me
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NTY2MzUwZC1hNjEzLTRhZTYtYjNmNC1lOTc4MjY0YzEzMjMiLCJlbWFpbCI6ImpvaG5zcy5kb2VuZXRAZXhhbXBsZS5jb20iLCJyb2xlIjoiQ1VTVE9NRVIiLCJpYXQiOjE3OTAxNTQ0OTgsImV4cCI6MTc5MDI0MDg5OH0.0IMeKg4Hd09vEvzrwD7DLdA8UvSnSvS5M0iOUDMD0P4

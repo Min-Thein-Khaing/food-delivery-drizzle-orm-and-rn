@@ -6,3 +6,4 @@ pnpm add --save @nestjs/config
 
 //jwt and bcrypt class-validator
 pnpm add @nest/jwt bcrypt class-validator class-transform
+pnpm add --save-dev @types/bcrypt
