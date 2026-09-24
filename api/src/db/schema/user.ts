@@ -13,6 +13,7 @@ export const user = pgTable('user', {
     email: text('email').notNull().unique(),
     password: text('password').notNull(),
     role: userRoleEnum('role').notNull().default('CUSTOMER'),
+    refreshToken: text('refresh_token'),
     pushToken: text('push_token'),
     isOnline: boolean('is_online').default(false),
     createdAt: timestamp('created_at').notNull().defaultNow(),

@@ -1,5 +1,5 @@
 export interface JwtPayLoad {
-  sub: string;
+  id: string;
   email: string;
   role: string;
 }

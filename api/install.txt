@@ -7,3 +7,7 @@ pnpm add --save @nestjs/config
 //jwt and bcrypt class-validator
 pnpm add @nest/jwt bcrypt class-validator class-transform
 pnpm add --save-dev @types/bcrypt
+
+//oauth
+npm install @nestjs/passport passport passport-google-oauth20 @nestjs/config
+npm install --save-dev @types/passport-google-oauth20
