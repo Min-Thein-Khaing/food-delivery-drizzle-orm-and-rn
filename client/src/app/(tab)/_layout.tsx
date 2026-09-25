@@ -1,14 +1,21 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+
+import { Redirect } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import AppTabs from '@/components/app-tabs'
+import { useAuthStore } from '@/stores/userAuthStore'
 
-const _layout = () => {
+const TabLayout = () => {
+  const { token } = useAuthStore()
+
+  if (!token) {
+    return <Redirect href="/(auth)/login" />
+  }
+
   return (
-    <SafeAreaView>
+    <SafeAreaView className="flex-1">
       <AppTabs />
     </SafeAreaView>
   )
 }
 
-export default _layout
+export default TabLayout

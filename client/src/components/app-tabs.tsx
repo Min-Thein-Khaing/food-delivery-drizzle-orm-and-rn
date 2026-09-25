@@ -26,8 +26,8 @@ export default function AppTabs() {
         tabBarStyle: {
           position: 'absolute',
           bottom: Platform.OS === 'ios' ? 24 : 16,
-          left: 16,
-          right: 16,
+          left: 20,
+          right: 20,
           height: 64,
           borderRadius: 50,
           borderWidth: 1,
@@ -45,7 +45,7 @@ export default function AppTabs() {
           overflow: 'hidden',
           paddingBottom: Platform.OS === 'ios' ? 8 : 6,
           paddingTop: 6,
-          marginBottom: Platform.OS === 'ios' ? 16 : 4,
+          marginBottom: Platform.OS === 'ios' ? 16 : 0,
           marginHorizontal: 9,
         },
         tabBarBackground: () => (
