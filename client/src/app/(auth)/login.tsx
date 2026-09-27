@@ -1,12 +1,10 @@
-import LoginComponent from '@/modules/auth/component/login';
-import { View, Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-const Login = () => {
+import LoginComponent from "@/modules/auth/component/login";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+export default function Login() {
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }} className="flex-1 bg-white">
       <LoginComponent />
     </SafeAreaView>
   );
-};
-
-export default Login;
+}

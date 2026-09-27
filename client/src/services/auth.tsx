@@ -1,15 +1,23 @@
 import { api } from "@/libs/axios";
-import { useAuthStore } from "@/stores/userAuthStore";
+import { useAuthStore, type User } from "@/stores/userAuthStore";
 import { Register } from "@/types/auth";
 
+type AuthResponse = {
+  user: User;
+  token: {
+    accessToken: string;
+    refreshToken: string;
+  };
+};
+
 export const login = async (email: string, password: string) => {
-  const response = await api.post("/auth/login", { email, password });
+  const response = await api.post<AuthResponse>("/auth/login", { email, password });
   useAuthStore.getState().setAuth(response.data);
   return response.data;
 };
 
 export const register = async (data: Register) => {
-  const response = await api.post("/auth/register", data);
+  const response = await api.post<AuthResponse>("/auth/register", data);
   useAuthStore.getState().setAuth(response.data);
   return response.data;
 };

@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   View,
@@ -17,25 +16,27 @@ import useRegister from "../hook/useRegister";
 import { router } from "expo-router";
 
 const RegisterComponent = () => {
-  const { control, errors,handleSubmit, isSubmitting, onSubmit } = useRegister();
+  const { control, errors, handleSubmit, isSubmitting, onSubmit } = useRegister();
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <View style={{ flex: 1, backgroundColor: "#ffffff" }} className="flex-1 bg-white">
       <KeyboardAvoidingView
+        style={{ flex: 1 }}
         className="flex-1"
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <ScrollView
+            contentContainerStyle={{ flexGrow: 1, justifyContent: "center", paddingHorizontal: 24, paddingVertical: 32 }}
             contentContainerClassName="flex-grow justify-center px-6 py-8"
             keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
           >
             {/* Header */}
             <View className="mb-8">
               <Text className="text-3xl font-bold text-gray-900">
                 Create Account
               </Text>
-
               <Text className="mt-2 text-base text-gray-500">
                 Create your account to get started.
               </Text>
@@ -46,16 +47,13 @@ const RegisterComponent = () => {
               <Text className="mb-2 text-sm font-medium text-gray-700">
                 First Name
               </Text>
-
               <Controller
                 control={control}
                 name="firstName"
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
                     className={`h-14 rounded-xl border px-4 text-base text-gray-900 ${
-                      errors.firstName
-                        ? "border-red-500"
-                        : "border-gray-300"
+                      errors.firstName ? "border-red-500" : "border-gray-300"
                     }`}
                     placeholder="Enter your first name"
                     placeholderTextColor="#9CA3AF"
@@ -66,7 +64,6 @@ const RegisterComponent = () => {
                   />
                 )}
               />
-
               {errors.firstName && (
                 <Text className="mt-2 text-sm text-red-500">
                   {errors.firstName.message}
@@ -79,7 +76,6 @@ const RegisterComponent = () => {
               <Text className="mb-2 text-sm font-medium text-gray-700">
                 Last Name
               </Text>
-
               <Controller
                 control={control}
                 name="lastName"
@@ -97,7 +93,6 @@ const RegisterComponent = () => {
                   />
                 )}
               />
-
               {errors.lastName && (
                 <Text className="mt-2 text-sm text-red-500">
                   {errors.lastName.message}
@@ -110,7 +105,6 @@ const RegisterComponent = () => {
               <Text className="mb-2 text-sm font-medium text-gray-700">
                 Email
               </Text>
-
               <Controller
                 control={control}
                 name="email"
@@ -130,7 +124,6 @@ const RegisterComponent = () => {
                   />
                 )}
               />
-
               {errors.email && (
                 <Text className="mt-2 text-sm text-red-500">
                   {errors.email.message}
@@ -143,16 +136,13 @@ const RegisterComponent = () => {
               <Text className="mb-2 text-sm font-medium text-gray-700">
                 Password
               </Text>
-
               <Controller
                 control={control}
                 name="password"
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
                     className={`h-14 rounded-xl border px-4 text-base text-gray-900 ${
-                      errors.password
-                        ? "border-red-500"
-                        : "border-gray-300"
+                      errors.password ? "border-red-500" : "border-gray-300"
                     }`}
                     placeholder="Enter your password"
                     placeholderTextColor="#9CA3AF"
@@ -165,7 +155,6 @@ const RegisterComponent = () => {
                   />
                 )}
               />
-
               {errors.password && (
                 <Text className="mt-2 text-sm text-red-500">
                   {errors.password.message}
@@ -178,39 +167,33 @@ const RegisterComponent = () => {
               <Text className="mb-3 text-sm font-medium text-gray-700">
                 Account Type
               </Text>
-
               <Controller
                 control={control}
                 name="role"
                 render={({ field: { onChange, value } }) => (
                   <View className="flex-row gap-2">
-                    {["CUSTOMER", "RESTAURANT_OWNER", "DRIVER"].map(
-                      (role) => (
-                        <Pressable
-                          key={role}
-                          onPress={() => onChange(role)}
-                          className={`flex-1 rounded-xl border p-3 ${
-                            value === role
-                              ? "border-blue-600 bg-blue-50"
-                              : "border-gray-300 bg-white"
+                    {["CUSTOMER", "RESTAURANT_OWNER", "DRIVER"].map((role) => (
+                      <Pressable
+                        key={role}
+                        onPress={() => onChange(role)}
+                        className={`flex-1 rounded-xl border p-3 ${
+                          value === role
+                            ? "border-blue-600 bg-blue-50"
+                            : "border-gray-300 bg-white"
+                        }`}
+                      >
+                        <Text
+                          className={`text-center text-xs font-medium ${
+                            value === role ? "text-blue-600" : "text-gray-600"
                           }`}
                         >
-                          <Text
-                            className={`text-center text-xs font-medium ${
-                              value === role
-                                ? "text-blue-600"
-                                : "text-gray-600"
-                            }`}
-                          >
-                            {role.replace("_", " ")}
-                          </Text>
-                        </Pressable>
-                      ),
-                    )}
+                          {role.replace("_", " ")}
+                        </Text>
+                      </Pressable>
+                    ))}
                   </View>
                 )}
               />
-
               {errors.role && (
                 <Text className="mt-2 text-sm text-red-500">
                   {errors.role.message}
@@ -227,28 +210,23 @@ const RegisterComponent = () => {
               }`}
             >
               <Text className="text-base font-semibold text-white">
-                {isSubmitting
-                  ? "Creating account..."
-                  : "Create Account"}
+                {isSubmitting ? "Creating account..." : "Create Account"}
               </Text>
             </Pressable>
 
-            {/* Login */}
+            {/* Login link */}
             <View className="mt-8 flex-row justify-center">
               <Text className="text-base text-gray-500">
                 Already have an account?{" "}
               </Text>
-
               <Pressable onPress={() => router.push("/(auth)/login")}>
-                <Text className="font-semibold text-blue-600">
-                  Sign In
-                </Text>
+                <Text className="font-semibold text-blue-600">Sign In</Text>
               </Pressable>
             </View>
           </ScrollView>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </View>
   );
 };
 

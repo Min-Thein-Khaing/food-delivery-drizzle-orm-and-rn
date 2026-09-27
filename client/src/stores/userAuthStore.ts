@@ -7,7 +7,6 @@ export type User = {
   firstName: string;
   lastName: string;
   email: string;
-  password: string;
   role: string;
   pushToken: string | null;
   isOnline: boolean;
@@ -25,6 +24,7 @@ type State = {
 type Action = {
   setHasHydrated: (state: boolean) => void;
   setToken: (token: string | null) => void;
+  setUser: (user: User | null) => void;
   setAuth: (auth: {
     user: User;
     token: { accessToken: string; refreshToken: string };
@@ -53,6 +53,7 @@ export const useAuthStore = create<State & Action>()(
           refreshToken: token.refreshToken,
           user,
         }),
+      setUser: (user: User | null) => set({ user }),
       clearAuth: () =>
         set({
           token: null,
@@ -75,8 +76,12 @@ export const useAuthStore = create<State & Action>()(
         refreshToken: state.refreshToken,
         user: state.user,
       }),
-      onRehydrateStorage: () => (state) => {
-        state?.setHasHydrated(true);
+      onRehydrateStorage: () => (_state, error) => {
+        if (error) {
+          console.error("Failed to restore saved authentication state:", error);
+        }
+
+        useAuthStore.getState().setHasHydrated(true);
       },
     },
   ),

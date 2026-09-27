@@ -2,12 +2,12 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-const explore = () => {
+const index = () => {
   return (
     <SafeAreaView>
-      <Text>explore</Text>
+      <Text>Customer Dashboard</Text>
     </SafeAreaView>
   )
 }
 
-export default explore
+export default index

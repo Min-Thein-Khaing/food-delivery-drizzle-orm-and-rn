@@ -1,13 +1,17 @@
 import "../global.css";
 import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useColorScheme } from "react-native";
+import { Appearance, useColorScheme } from "react-native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AnimatedSplashOverlay } from "@/components/animated-icon";
-import { useAuthStore } from "@/stores/userAuthStore";
 import { useEffect } from "react";
 
-SplashScreen.preventAutoHideAsync();
+import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
+
+Appearance.setColorScheme?.("light");
+
+SplashScreen.preventAutoHideAsync().catch((error) => {
+  console.error("Failed to keep the splash screen visible:", error);
+});
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,23 +23,33 @@ const queryClient = new QueryClient({
 });
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  const { _hasHydrated } = useAuthStore()
 
   useEffect(() => {
-    if (_hasHydrated) {
-      SplashScreen.hideAsync();
-    }
-  }, [_hasHydrated]);
-  if (!_hasHydrated) return null;
+    SplashScreen.hideAsync().catch((error) => {
+      console.error("Failed to hide the splash screen:", error);
+    });
+  }, []);
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <AnimatedSplashOverlay />
-        <Stack>
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-          <Stack.Screen name="(tab)" options={{ headerShown: false }} />
-        </Stack>
-      </ThemeProvider>
-    </QueryClientProvider>
+    <GluestackUIProvider mode="light">
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider value={DefaultTheme}>
+          <Stack
+            initialRouteName="index"
+            screenOptions={{
+              headerShown: false,
+              contentStyle: { backgroundColor: "#ffffff" },
+              // animation: "none",
+            }}
+          >
+            <Stack.Screen name="index" />
+            <Stack.Screen name="(auth)" />
+            <Stack.Screen name="(driver)" />
+            <Stack.Screen name="(customer)" />
+            <Stack.Screen name="(restaurant)" />
+          </Stack>
+        </ThemeProvider>
+      </QueryClientProvider>
+    </GluestackUIProvider>
   );
 }
