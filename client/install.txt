@@ -1,3 +1,6 @@
 pnpm add axios @tanstack/react-query
 
 pnpm add expo-secure-store
+
+
+pnpm add uploadthing @uploadthing/expo expo-image-picker expo-document-picker

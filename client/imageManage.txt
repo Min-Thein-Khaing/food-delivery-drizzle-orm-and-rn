@@ -1,0 +1,39 @@
+npx expo install expo-image-picker expo-image-manipulator
+
+
+import * as ImagePicker from 'expo-image-picker';
+import * as ImageManipulator from 'expo-image-manipulator';
+
+export const pickAndOptimizeImage = async () => {
+  // ၁။ Gallery မှ ပုံရွေးခြင်း (expo-image-picker)
+  const pickerResult = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ['images'],
+    allowsEditing: true, // User ကို crop ဖြတ်ခွင့်ပေးခြင်း
+    aspect: [1, 1],      // Square ပုံစံ
+  });
+
+  if (pickerResult.canceled || !pickerResult.assets[0]) {
+    return null;
+  }
+
+  const rawImageUri = pickerResult.assets[0].uri;
+
+  // ၂။ ရရှိလာသော ပုံကြီးကို အရွယ်အစား ချုံ့ခြင်း (expo-image-manipulator)
+  const manipulatedImage = await ImageManipulator.manipulateAsync(
+    rawImageUri,
+    [
+      // Width ကို 800px သို့ ချုံ့မည် (Height က အချိုးကျ အလိုအလျောက် သေးသွားပါမည်)
+      { resize: { width: 800 } },
+    ],
+    {
+      compress: 0.7, // အရည်အသွေး ၇၀% ထားမည် (ဖိုင်ဆိုဒ် အလွန်သေးသွားမည်)
+      format: ImageManipulator.SaveFormat.JPEG, // JPEG အဖြစ် သိမ်းမည်
+    }
+  );
+
+  console.log("မူလပုံ URI:", rawImageUri);
+  console.log("ချုံ့ပြီးသားပုံ URI (Ready to upload):", manipulatedImage.uri);
+  console.log("ချုံ့ပြီးသား ပုံအကျယ်:", manipulatedImage.width, "အမြင့်:", manipulatedImage.height);
+
+  return manipulatedImage.uri;
+};

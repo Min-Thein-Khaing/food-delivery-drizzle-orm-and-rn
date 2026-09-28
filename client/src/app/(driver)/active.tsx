@@ -2,14 +2,14 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-const HomeIndex = () => {
+const Active = () => {
   return (
     <SafeAreaView>
-      <Text>Driver</Text>
+      <Text>Active</Text>
     </SafeAreaView>
   )
 }
 
-export default HomeIndex
+export default Active
 
 const styles = StyleSheet.create({})

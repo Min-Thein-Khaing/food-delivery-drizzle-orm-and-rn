@@ -66,7 +66,7 @@ export default function AppTabs({ tabs }: { tabs: AppTab[] }) {
           paddingBottom: Platform.OS === 'ios' ? 8 : 6,
           paddingTop: 6,
 
-          marginBottom: Platform.OS === 'ios' ? 16 : 0,
+          marginBottom: Platform.OS === 'ios' ? 16 : 4,
           marginHorizontal: 9,
         },
 
