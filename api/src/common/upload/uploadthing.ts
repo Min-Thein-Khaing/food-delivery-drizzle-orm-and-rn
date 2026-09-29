@@ -65,7 +65,7 @@ export const uploadRouter: FileRouter = {
       console.log("Upload completed by:", metadata.user);
       console.log("File URL:", file.url);
 
-      return { uploadedBy: metadata.user };
+      return { url: file.url, uploadedBy: metadata.user };
     }),
 } satisfies FileRouter ;
 

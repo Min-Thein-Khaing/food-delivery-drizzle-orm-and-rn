@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { DbModule } from './db/db.module.js';
 import { AuthModule } from './modules/auth/auth.module.js';
 import { UploadModule } from './common/upload/upload.module.js';
+import { RestaurantModule } from './modules/restaurant/restaurant.module.js';
 
 
 @Module({
@@ -16,6 +17,7 @@ import { UploadModule } from './common/upload/upload.module.js';
     DbModule,
     AuthModule,
     UploadModule,
+    RestaurantModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -5,7 +5,7 @@ import {  uploadthingHandler } from './upload.controller.js';
 export class UploadModule implements NestModule {
 
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(uploadthingHandler).forRoutes("/api/upload");
+    consumer.apply(uploadthingHandler).forRoutes("upload/*");
   }
 
 }
