@@ -28,7 +28,7 @@ export default function AuthLayout() {
         return <Redirect href="/(customer)" />;
 
       case "RESTAURANT_OWNER":
-        return <Redirect href="/(restaurant)" />;
+        return <Redirect href="/(restaurant)/(tabs)" />;
 
       case "DRIVER":
         return <Redirect href="/(driver)" />;

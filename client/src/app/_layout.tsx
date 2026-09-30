@@ -1,11 +1,24 @@
 import "../global.css";
-import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from "expo-router";
+import {
+  DefaultTheme,
+  Stack,
+  ThemeProvider,
+  useRouter,
+  useSegments,
+} from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { Appearance, useColorScheme } from "react-native";
+import {
+  ActivityIndicator,
+  Appearance,
+  StyleSheet,
+  View,
+  useColorScheme,
+} from "react-native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect } from "react";
 
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
+import { useAuthStore } from "@/stores/userAuthStore";
 
 Appearance.setColorScheme?.("light");
 
@@ -21,6 +34,93 @@ const queryClient = new QueryClient({
     },
   },
 });
+
+function AppNavigator() {
+  const segments = useSegments();
+  const router = useRouter();
+  const { user, token, accessToken, _hasHydrated } = useAuthStore();
+  const routeGroup = segments[0];
+  const requiredRole =
+    routeGroup === "(restaurant)"
+      ? "RESTAURANT_OWNER"
+      : routeGroup === "(customer)"
+        ? "CUSTOMER"
+        : routeGroup === "(driver)"
+          ? "DRIVER"
+          : undefined;
+  const isPrivateRoute = requiredRole !== undefined;
+  const hasAccessToken = Boolean(accessToken || token);
+
+  useEffect(() => {
+    if (!isPrivateRoute || !_hasHydrated) return;
+
+    if (!hasAccessToken) {
+      router.replace("/(auth)/login");
+      return;
+    }
+
+    if (user?.role !== requiredRole) {
+      switch (user?.role) {
+        case "RESTAURANT_OWNER":
+          router.replace("/(restaurant)/(tabs)");
+          break;
+        case "CUSTOMER":
+          router.replace("/(customer)");
+          break;
+        case "DRIVER":
+          router.replace("/(driver)");
+          break;
+        default:
+          router.replace("/(auth)/login");
+      }
+    }
+  }, [
+    _hasHydrated,
+    hasAccessToken,
+    isPrivateRoute,
+    requiredRole,
+    router,
+    user?.role,
+  ]);
+
+  const shouldWaitForAuth = isPrivateRoute && !_hasHydrated;
+
+  return (
+    <>
+      <Stack
+        initialRouteName="index"
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { backgroundColor: "#ffffff" },
+          // animation: "none",
+        }}
+      >
+        <Stack.Screen name="index" />
+        <Stack.Screen name="(auth)" />
+        <Stack.Screen name="(driver)" />
+        <Stack.Screen name="(customer)" />
+        <Stack.Screen name="(restaurant)" />
+      </Stack>
+      {shouldWaitForAuth && (
+        <View style={styles.authLoadingOverlay}>
+          <ActivityIndicator size="large" color="#16845C" />
+        </View>
+      )}
+    </>
+  );
+}
+
+const styles = StyleSheet.create({
+  authLoadingOverlay: {
+    ...StyleSheet.absoluteFill,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#FFFFFF",
+    zIndex: 1,
+  },
+});
+
+
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
@@ -34,20 +134,7 @@ export default function TabLayout() {
     <GluestackUIProvider mode="light">
       <QueryClientProvider client={queryClient}>
         <ThemeProvider value={DefaultTheme}>
-          <Stack
-            initialRouteName="index"
-            screenOptions={{
-              headerShown: false,
-              contentStyle: { backgroundColor: "#ffffff" },
-              // animation: "none",
-            }}
-          >
-            <Stack.Screen name="index" />
-            <Stack.Screen name="(auth)" />
-            <Stack.Screen name="(driver)" />
-            <Stack.Screen name="(customer)" />
-            <Stack.Screen name="(restaurant)" />
-          </Stack>
+          <AppNavigator />
         </ThemeProvider>
       </QueryClientProvider>
     </GluestackUIProvider>

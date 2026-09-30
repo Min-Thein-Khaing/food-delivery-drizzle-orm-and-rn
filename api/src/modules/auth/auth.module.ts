@@ -35,6 +35,6 @@ import { PassportModule } from '@nestjs/passport';
     RefreshTokenStrategy,
   ],
   controllers: [AuthController],
-  exports: [PassportModule],
+  exports: [PassportModule, AuthService],
 })
 export class AuthModule {}

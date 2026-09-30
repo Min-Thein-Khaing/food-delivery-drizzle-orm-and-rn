@@ -8,16 +8,19 @@ import {
 } from 'class-validator';
 
 export class UpdateRestaurantDto {
+  @IsOptional()
   @IsString()
   @MinLength(2)
   @MaxLength(100)
   name?: string;
 
+  @IsOptional()
   @IsString()
   @MinLength(10)
   @MaxLength(255)
   description?: string;
 
+  @IsOptional()
   @IsString()
   @MinLength(5)
   @MaxLength(255)
@@ -27,6 +30,7 @@ export class UpdateRestaurantDto {
   @IsUrl()
   imageUrl?: string;
 
+  @IsOptional()
   @IsString()
   @MinLength(2)
   @MaxLength(100)

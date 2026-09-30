@@ -5,3 +5,7 @@ asdffdsa
 customer
 johnss.doenet@example.com
 password123
+
+driver
+admin1@gmail.com
+asdffdsa

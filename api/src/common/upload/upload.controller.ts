@@ -1,11 +1,13 @@
+import "dotenv/config";
 import { createRouteHandler } from "uploadthing/express";
 import { uploadRouter } from "./uploadthing.js";
-import { ConfigService } from "@nestjs/config";
 
-const configService = new ConfigService();
 export const uploadthingHandler = createRouteHandler({
   router: uploadRouter,
-  config:{
-    token: configService.get("UPLOADTHING_SECRET")
-  }
-});
+  config: {
+    token:
+      process.env.UPLOADTHING_TOKEN ||
+      process.env.UPLOADTHING_SECRET ||
+      undefined,
+  },
+});

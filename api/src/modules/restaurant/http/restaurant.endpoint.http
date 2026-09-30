@@ -1,4 +1,30 @@
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMyNGFkNWI4LTdjMzEtNDllMi1iNmZlLTk3YzY0MjdhMzk0NSIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicm9sZSI6IlJFU1RBVVJBTlRfT1dORVIiLCJpYXQiOjE3OTA3NTYzMTUsImV4cCI6MTc5MDc1NzIxNX0.hscPTLPAVyJTrgS--La4N4uNFZ_1kC7Q8o2MS4Y-s-I
 
+### List restaurants
 GET http://localhost:3000/api/restaurant
 Content-Type: application/json
-Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg1NjYzNTBkLWE2MTMtNGFlNi1iM2Y0LWU5NzgyNjRjMTMyMyIsImVtYWlsIjoiam9obnNzLmRvZW5ldEBleGFtcGxlLmNvbSIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTc5MDY4MDIyOCwiZXhwIjoxNzkwNjgxMTI4fQ.-y-A24N4kJdzjqZWRi9oovkd61aJCCveWi4EsANHhMY
+Authorization: Bearer {{accessToken}}
+
+GET http://localhost:3000/api/restaurant/mine
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Create a restaurant (access token must belong to a RESTAURANT_OWNER)
+POST http://localhost:3000/api/restaurant
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "name": "Burger Palace",
+  "description": "Best burger in town",
+  "address": "123 main street",
+  "cuisineType": "American"
+}
+
+PATCH http://localhost:3000/api/restaurant/b77711c6-71a9-4082-bd6b-c8b9fb811c72
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "isOpen":true
+}

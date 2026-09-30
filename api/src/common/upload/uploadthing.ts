@@ -1,3 +1,4 @@
+import "dotenv/config";
 import type { Request } from "express";
 import { createUploadthing, type FileRouter } from "uploadthing/express";
 import { JwtService } from "@nestjs/jwt";
@@ -22,7 +23,7 @@ export const uploadRouter: FileRouter = {
 
       try {
         const decoded = jwtService.verify(token, {
-          secret: process.env.JWT_SECRET || "your-secret-key",
+          secret: process.env.JWT_SECRET || "pleasewriteasecuresecretkeyhere",
         });
 
         return { user: decoded };
@@ -34,7 +35,11 @@ export const uploadRouter: FileRouter = {
       console.log("Upload completed by:", metadata.user);
       console.log("File URL:", file.url);
 
-      return { uploadedBy: metadata.user };
+      return {
+        url: file.url,
+        ufsUrl: (file as any).ufsUrl || file.url,
+        uploadedBy: metadata.user,
+      };
     }),
 
   menuItemImage: f({
@@ -53,7 +58,7 @@ export const uploadRouter: FileRouter = {
 
       try {
         const decoded = jwtService.verify(token, {
-          secret: process.env.JWT_SECRET || "your-secret-key",
+          secret: process.env.JWT_SECRET || "pleasewriteasecuresecretkeyhere",
         });
 
         return { user: decoded };
@@ -65,8 +70,12 @@ export const uploadRouter: FileRouter = {
       console.log("Upload completed by:", metadata.user);
       console.log("File URL:", file.url);
 
-      return { url: file.url, uploadedBy: metadata.user };
+      return {
+        url: file.url,
+        ufsUrl: (file as any).ufsUrl || file.url,
+        uploadedBy: metadata.user,
+      };
     }),
-} satisfies FileRouter ;
+} satisfies FileRouter;
 
 export type OurFileRouter = typeof uploadRouter;

@@ -13,8 +13,8 @@ Content-Type: application/json
 {
     
   
-  "email": "johnss.doenet@example.com",
-  "password": "password123"
+  "email": "admin@gmail.com",
+  "password": "asdffdsa"
 }
 
 GET http://localhost:3000/api/auth/me

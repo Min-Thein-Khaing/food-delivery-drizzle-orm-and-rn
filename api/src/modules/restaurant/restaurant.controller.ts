@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Post, Req, Body, Get, Param, Query } from '@nestjs/common';
+import { Controller, UseGuards, Post, Body, Get, Param, Query, Patch } from '@nestjs/common';
 import { RestaurantService } from './providers/restaurant.service.js';
 import { JwtTokenGuard } from '../auth/guard/jwt-token.guard.js';
 import { RolesGuard } from '../auth/guard/role.guard.js';
@@ -7,6 +7,7 @@ import { UserRole } from '../../types/index.js';
 import { CreateRestaurantDto } from './dto/createRestaurant.dto.js';
 import type { FindAllQuery } from './interface/restaurant.interface.js';
 import { GetUser } from '../../common/guard/getRole.guard.js';
+import { UpdateRestaurantDto } from './dto/updateRestaurant.dto.js';
 
 
 
@@ -20,7 +21,7 @@ export class RestaurantController {
    @Post()
    @UseGuards(RolesGuard)
    @Roles(UserRole.RESTAURANT_OWNER)
-   async create (@Req()  ownerId: string, @Body() createRestaurantDto: CreateRestaurantDto) {
+   async create (@GetUser('id') ownerId: string, @Body() createRestaurantDto: CreateRestaurantDto) {
     return this.restaurantService.create(ownerId, createRestaurantDto);
    }
 
@@ -39,5 +40,12 @@ export class RestaurantController {
    @Get("/:id")
    async findById(@Param("id") id: string) {
     return this.restaurantService.findById(id);
+   }
+
+   @Patch("/:id")
+   @UseGuards(RolesGuard)
+   @Roles(UserRole.RESTAURANT_OWNER)
+   async update(@Param("id") id: string, @GetUser('id') ownerId: string, @Body() updateRestaurantDto: UpdateRestaurantDto) {
+    return this.restaurantService.updateRestaurant(id, ownerId, updateRestaurantDto);
    }
 }

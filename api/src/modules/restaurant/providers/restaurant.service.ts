@@ -24,8 +24,8 @@ export class RestaurantService {
   async create(ownerId: string, createRestaurantDto: CreateRestaurantDto) {
     const [existing] = await this.db
       .select()
-      .from(schema.user)
-      .where(eq(schema.user.id, ownerId));
+      .from(schema.restaurant)
+      .where(eq(schema.restaurant.ownerId, ownerId));
 
     if (existing) {
       throw new ForbiddenException('You are already have a restaurant');
@@ -171,19 +171,7 @@ export class RestaurantService {
       .update(schema.restaurant)
       .set({ ...updateRestaurantDto, updatedAt: new Date() })
       .where(eq(schema.restaurant.id, id))
-      .returning({
-        id: schema.restaurant.id,
-        ownerId: schema.restaurant.ownerId,
-        name: schema.restaurant.name,
-        description: schema.restaurant.description,
-        address: schema.restaurant.address,
-        imageUrl: schema.restaurant.imageUrl,
-        rating: schema.restaurant.rating,
-        cuisineType: schema.restaurant.cuisineType,
-        isOpen: schema.restaurant.isOpen,
-        createdAt: schema.restaurant.createdAt,
-        updatedAt: schema.restaurant.updatedAt,
-      });
+      .returning();
     return update;
   }
 }

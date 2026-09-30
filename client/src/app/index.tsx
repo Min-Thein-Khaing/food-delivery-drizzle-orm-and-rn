@@ -34,7 +34,7 @@ export default function IndexRoute() {
     return <Redirect href="/(customer)" />;
   }
   if (token && user?.role === "RESTAURANT_OWNER") {
-    return <Redirect href="/(restaurant)" />;
+    return <Redirect href="/(restaurant)/(tabs)" />;
   }
   if (token && user?.role === "DRIVER") {
     return <Redirect href="/(driver)" />;
