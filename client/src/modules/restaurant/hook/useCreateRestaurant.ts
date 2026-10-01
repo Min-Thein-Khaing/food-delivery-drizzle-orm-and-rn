@@ -14,8 +14,8 @@ export default function useCreateRestaurant() {
       const response = await api.post<Restaurant>("/restaurant", payload);
       return response.data;
     },
-    onSuccess: (restaurant) => {
-      queryClient.setQueryData(["restaurant"], restaurant);
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey:["restaurant"]});
       router.replace("/(restaurant)/(tabs)");
     },
   });

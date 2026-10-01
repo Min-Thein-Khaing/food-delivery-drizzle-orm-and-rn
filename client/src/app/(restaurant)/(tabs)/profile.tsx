@@ -265,6 +265,7 @@ export default function Profile() {
             {/* Restaurant Store Profile */}
             <TouchableOpacity
               activeOpacity={0.7}
+              onPress={() => router.push("/(restaurant)/update-restaurant")}
               className="flex-row items-center px-4 py-3.5 border-b border-slate-50"
             >
               <View className="w-9 h-9 rounded-xl bg-orange-50 items-center justify-center mr-3">

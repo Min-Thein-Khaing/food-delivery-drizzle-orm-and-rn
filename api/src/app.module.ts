@@ -6,6 +6,8 @@ import { DbModule } from './db/db.module.js';
 import { AuthModule } from './modules/auth/auth.module.js';
 import { UploadModule } from './common/upload/upload.module.js';
 import { RestaurantModule } from './modules/restaurant/restaurant.module.js';
+import { MenuModule } from './modules/menu/menu.module.js';
+
 
 
 @Module({
@@ -18,6 +20,7 @@ import { RestaurantModule } from './modules/restaurant/restaurant.module.js';
     AuthModule,
     UploadModule,
     RestaurantModule,
+    MenuModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -91,10 +91,10 @@ const CreateRestaurant = () => {
   const currentImageUrl = useWatch({ control, name: "imageUrl" });
 
   const { startUpload, isUploading } = useUploadThing("restaurantImage", {
-    headers: async () => {
-      const currentToken = useAuthStore.getState().token;
-      return currentToken ? { Authorization: `Bearer ${currentToken}` } : {};
-    },
+    // headers: async () => {
+    //   const currentToken = useAuthStore.getState().token;
+    //   return currentToken ? { Authorization: `Bearer ${currentToken}` } : {};
+    // },
     onUploadError: (error) => {
       setUploadError(error.message || "Image upload failed. Please try again.");
     },
@@ -229,14 +229,14 @@ const CreateRestaurant = () => {
           >
             {/* Header */}
             <View className="mb-6 flex-row items-center">
-              <Pressable
+              {/* <Pressable
                 accessibilityRole="button"
                 accessibilityLabel="Go back"
                 onPress={() => router.back()}
                 className="mr-4 h-11 w-11 items-center justify-center rounded-xl border border-gray-200 bg-white"
               >
                 <ArrowLeft size={20} color="#17232D" />
-              </Pressable>
+              </Pressable> */}
 
               <View>
                 <Text className="text-xs font-bold uppercase tracking-wider text-emerald-700">

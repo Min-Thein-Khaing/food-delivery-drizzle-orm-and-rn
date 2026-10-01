@@ -1,35 +1,31 @@
 import { useState } from "react";
 import { Redirect } from "expo-router";
 import { useAuthStore } from "@/stores/userAuthStore";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 import AdScreen from "@/modules/ad/AdScreen";
 
 export default function IndexRoute() {
   const { token, _hasHydrated, user } = useAuthStore();
   const [adDone, setAdDone] = useState(false);
 
-  // Show the ad while waiting — hydration happens in the background during this time
+  // 1. Show Ad while Auth hydration loads in the background
   if (!adDone) {
-    return <AdScreen onFinish={() => setAdDone(true)} />;
+    return <AdScreen onFinish={() => setAdDone(true)} duration={5} />;
   }
 
-  // Still hydrating after ad finished — show white loading screen
+  // 2. Fallback loading state if hydration is still pending (Smooth & Clean UI)
   if (!_hasHydrated) {
     return (
-      <View
-        style={{
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "#ffffff",
-        }}
-      >
-        <ActivityIndicator size="large" color="#0284c7" />
+      <View className="flex-1 bg-white items-center justify-center">
+        <Text className="text-xl font-bold text-emerald-600 tracking-wider mb-2">
+          FOOD DELIVERY
+        </Text>
+        <ActivityIndicator size="small" color="#059669" />
       </View>
     );
   }
 
-  // Hydrated — redirect based on role (white bg prevents black flash)
+  // 3. Hydration finished -> Role-based Redirection
   if (token && user?.role === "CUSTOMER") {
     return <Redirect href="/(customer)" />;
   }
@@ -39,5 +35,7 @@ export default function IndexRoute() {
   if (token && user?.role === "DRIVER") {
     return <Redirect href="/(driver)" />;
   }
+
+  // Default to Login screen
   return <Redirect href="/(auth)/login" />;
 }

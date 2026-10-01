@@ -23,6 +23,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/libs/axios";
 import { useAuthStore } from "@/stores/userAuthStore";
+import type { Restaurant } from "@/types/restaurant";
 
 
 function getErrorMessage(error: unknown) {
@@ -49,18 +50,23 @@ export default function RestaurantOwnerIndex() {
   const user = useAuthStore((state) => state.user);
   
 
-  const { data: restaurant, isLoading, isError, error,refetch } = useQuery({
+  const { data: restaurant, isLoading, isError, error, refetch } = useQuery<Restaurant>({
     queryKey: ["restaurant"],
     queryFn: () => api.get(`/restaurant/mine`).then((res) => res.data),
-  })
+  });
+
   const toggleMutation = useMutation({
-    mutationFn: () => {
-      return api.patch(`/restaurant/${restaurant.id}`, {
+    mutationFn: async () => {
+      if (!restaurant?.id) throw new Error("Restaurant not found");
+      const response = await api.patch<Restaurant>(`/restaurant/${restaurant.id}`, {
         isOpen: !restaurant.isOpen,
       });
+      return response.data;
     },
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["restaurant"] }),
+    onSuccess: (updated) => {
+      queryClient.setQueryData(["restaurant"], updated);
+      queryClient.invalidateQueries({ queryKey: ["restaurant"] });
+    },
   });
 
   if (isLoading) {

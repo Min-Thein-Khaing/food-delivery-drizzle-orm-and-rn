@@ -14,7 +14,6 @@ export interface Restaurant {
   updatedAt: string;
 }
 
-
 export const createRestaurantSchema = z.object({
   name: z
     .string()
@@ -37,7 +36,7 @@ export const createRestaurantSchema = z.object({
     .min(2, "Cuisine type must be at least 2 characters")
     .max(100, "Cuisine type must be 100 characters or fewer"),
   imageUrl: z
-    .union([z.url("Enter a valid image URL"), z.literal("")])
+    .union([z.string().url("Enter a valid image URL"), z.literal("")])
     .optional(),
 });
 
@@ -50,4 +49,14 @@ export type CreateRestaurantPayload = Omit<
   "imageUrl"
 > & {
   imageUrl?: string;
+};
+
+export const updateRestaurantSchema = createRestaurantSchema.partial();
+
+export type UpdateRestaurantFormValues = z.infer<
+  typeof updateRestaurantSchema
+>;
+
+export type UpdateRestaurantPayload = Partial<CreateRestaurantPayload> & {
+  isOpen?: boolean;
 };
