@@ -2,12 +2,15 @@ import {
   IsBoolean,
   IsNotEmpty,
   IsNumber,
+  IsNumberString,
   IsOptional,
   IsString,
   IsUUID,
   MaxLength,
   Min,
 } from 'class-validator';
+import { Transform } from 'class-transformer';
+
 
 export class CreateMenuItemDto {
   @IsUUID()
@@ -23,7 +26,8 @@ export class CreateMenuItemDto {
   @IsNotEmpty()
   description: string;
 
-  @IsNumber({ maxDecimalPlaces: 2 })
+  @Transform(({ value }: { value: string }) => Number(value)) // Frontend မှ "20.25" (string) ကို 20.25 (number) သို့ Auto ပြောင်းပေးမည်
+  @IsNumber()
   @Min(0)
   price: number;
 
